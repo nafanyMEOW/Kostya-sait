@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кибербезопасность в тёмной теме</title>
+    <style>
+        :root {
+            --dark-bg: #121a24;
+            --darker: #0d131b;
+            --card-bg: #1a2432;
+            --accent-teal: #2ef8a0;
+            --accent-blue: #00c8f8;
+            --text-light: #e0f2fe;
+            --text-muted: #94a3b8;
+        }
+        
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-light);
+            background-color: var(--dark-bg);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        @supports (font-variation-settings: normal) {
+            body { font-family: 'Inter var', sans-serif; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--darker), #14202e);
+            color: white;
+            padding: 5rem 0 4rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(46, 248, 160, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
+        h2 {
+            color: var(--accent-teal);
+            margin: 4rem 0 2rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+        
+        h2:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.35em;
+            height: 1em;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-teal), var(--accent-blue));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            color: var(--accent-blue);
+            margin: 2.5rem 0 1.5rem;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        
+        .intro {
+            font-size: 1.15rem;
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 2rem 0 4rem;
+            border: 1px solid rgba(0, 200, 248, 0.1);
+            line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(46,248,160,0.1) 0%, rgba(0,200,248,0) 70%);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(0, 200, 248, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(46, 248, 160, 0.3);
+        }
+        
+        .card.danger {
+            border-left: 4px solid #ff4d4d;
+        }
+        
+        .card.warning {
+            border-left: 4px solid #ffb84d;
+        }
+        
+        .card.info {
+            border-left: 4px solid var(--accent-blue);
+        }
+        
+        .card.success {
+            border-left: 4px solid var(--accent-teal);
+        }
+        
+        ul, ol {
+            padding-left: 1.8rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+        
+        ul li:before {
+            content: '•';
+            color: var(--accent-teal);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        ol {
+            counter-reset: item;
+        }
+        
+        ol li {
+            counter-increment: item;
+        }
+        
+        ol li:before {
+            content: counter(item) ".";
+            color: var(--accent-blue);
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: -1.5em;
+        }
+        
+        .highlight {
+            background-color: rgba(46, 248, 160, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--accent-teal);
+            border-left: 3px solid var(--accent-teal);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .info-box {
+            background-color: rgba(0, 200, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background-color: rgba(255, 184, 77, 0.08);
+            border-left: 4px solid #ffb84d;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .danger-box {
+            background-color: rgba(255, 77, 77, 0.08);
+            border-left: 4px solid #ff4d4d;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .success-box {
+            background-color: rgba(46, 248, 160, 0.08);
+            border-left: 4px solid var(--accent-teal);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent-blue);
+            padding: 2rem;
+            margin: 4rem 0;
+            background-color: rgba(26, 36, 50, 0.7);
+            color: var(--text-light);
+            font-size: 1.2rem;
+            position: relative;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .quote:before {
+            content: '"';
+            font-size: 5rem;
+            color: var(--accent-teal);
+            opacity: 0.15;
+            position: absolute;
+            top: -1.5rem;
+            left: 0.5rem;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #0d131b, #121a24);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 4rem 0;
+            margin-top: 6rem;
+            border-top: 1px solid rgba(46, 248, 160, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: var(--accent-teal);
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                padding: 2rem;
+            }
+            
+            header {
+                padding: 3rem 1rem;
+            }
+            
+            .intro {
+                padding: 2rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Тёмная сторона интернета</h1>
+            <p class="subtitle">Как защитить себя в цифровом пространстве — полное руководство по кибербезопасности</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <p>Современный интернет — это не только безграничные возможности, но и скрытые угрозы. В тёмных уголках сети злоумышленники разрабатывают всё более изощрённые методы атак. Это руководство поможет вам разобраться в основных опасностях и научиться эффективно защищать свои данные.</p>
+        </section>
+        
+        <h2>Технические угрозы</h2>
+        
+        <div class="card info">
+            <h3>Взлом учётных записей</h3>
+            <p>Слабые пароли — как открытая дверь для злоумышленников. Современные технологии позволяют взламывать простые комбинации за секунды.</p>
+            
+            <div class="danger-box">
+                <h4>Признаки компрометации аккаунта:</h4>
+                <ul>
+                    <li>Необычная активность (отправленные сообщения, изменения настроек)</li>
+                    <li>Уведомления о входе с незнакомых устройств</li>
+                    <li>Появление вашего пароля в базах утёкших данных</li>
+                    <li>Неожиданные запросы двухфакторной аутентификации</li>
+                </ul>
+            </div>
+            
+            <p>Искусственный интеллект сегодня способен взломать <span class="highlight">51% распространённых паролей</span> менее чем за минуту, что делает вопрос выбора сложного пароля критически важным.</p>
+        </div>
+        
+        <div class="card info">
+            <h3>Поддельные Wi-Fi сети</h3>
+            <p>Общественные точки доступа — излюбленная мишень для хакеров, создающих фальшивые сети с обманчивыми названиями.</p>
+            
+            <div class="info-box">
+                <h4>Как работает атака:</h4>
+                <ol>
+                    <li>Злоумышленник разворачивает точку доступа с названием, похожим на легальную</li>
+                    <li>Ваше устройство автоматически подключается к поддельной сети</li>
+                    <li>Весь трафик перенаправляется через устройство атакующего</li>
+                    <li>Перехватываются логины, пароли, платежные данные</li>
+                </ol>
+            </div>
+            
+            <p>Для защиты рекомендуется <span class="highlight">отключить автоматическое подключение</span> к Wi-Fi сетям и использовать VPN в публичных местах.</p>
+        </div>
+        
+        <div class="card info">
+            <h3>Вредоносное ПО</h3>
+            <p>Современные вирусы становятся всё более изощрёнными и опасными. Основные виды угроз:</p>
+            
+            <ul>
+                <li><span class="highlight">Вирусы</span> — заражают файлы и программы, распространяясь при их запуске</li>
+                <li><span class="highlight">Черви</span> — самостоятельно распространяются по сети, используя уязвимости</li>
+                <li><span class="highlight">Трояны</span> — маскируются под полезные программы, скрывая вредоносный функционал</li>
+                <li><span class="highlight">Кейлоггеры</span> — записывают все нажатия клавиш, крадя пароли и другую конфиденциальную информацию</li>
+            </ul>
+        </div>
+        
+        <div class="card info">
+            <h3>DDoS-атаки</h3>
+            <p>Распределённые атаки на отказ в обслуживании могут парализовать даже крупные онлайн-сервисы.</p>
+            
+            <div class="danger-box">
+                <p><strong>Современные DDoS-атаки</strong> достигают масштабов в <span class="highlight">сотни гигабит в секунду</span>, используя ботнеты из тысяч заражённых устройств по всему миру.</p>
+            </div>
+            
+            <p>Для защиты от DDoS используются специализированные сервисы фильтрации трафика и распределённые архитектуры.</p>
+        </div>
+        
+        <h2>Социальная инженерия</h2>
+        
+        <div class="card warning">
+            <h3>Фишинг 2.0</h3>
+            <p>Современные фишинговые атаки стали практически неотличимы от легитимных сообщений.</p>
+            
+            <div class="warning-box">
+                <h4>Новые техники обмана:</h4>
+                <ul>
+                    <li>Персонализированные письма с вашими реальными данными</li>
+                    <li>Поддельные страницы входа с SSL-сертификатами</li>
+                    <li>СМС с подменёнными номерами служб поддержки</li>
+                    <li>Голосовые фишинг-атаки (вишинг) с имитацией голоса</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card warning">
+            <h3>Ложные антивирусы</h3>
+            <p>Вредоносные программы маскируются под средства защиты:</p>
+            
+            <ul>
+                <li>Фейковые предупреждения о "найденных вирусах"</li>
+                <li>Поддельные обновления Windows и других популярных программ</li>
+                <li>"Очистители системы", требующие оплаты</li>
+                <li>Браузерные расширения-"защитники"</li>
+            </ul>
+        </div>
+        
+        <div class="card warning">
+            <h3>Подмена личности</h3>
+            <p>Злоумышленники мастерски имитируют доверенных лиц:</p>
+            
+            <div class="info-box">
+                <ul>
+                    <li>Письма от "коллег" с просьбой срочно перевести деньги</li>
+                    <li>Фейковые профили в соцсетях с вашими фотографиями</li>
+                    <li>Звонки с подменённых номеров служб поддержки</li>
+                    <li>Поддельные чат-боты в мессенджерах</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>Стратегии защиты</h2>
+        
+        <div class="grid">
+            <div class="card success">
+                <h3>Управление доступом</h3>
+                <ul>
+                    <li>Используйте менеджер паролей (Bitwarden, 1Password)</li>
+                    <li>Активируйте двухфакторную аутентификацию везде</li>
+                    <li>Создавайте уникальные сложные пароли для каждого сервиса</li>
+                    <li>Регулярно проверяйте утёкшие данные (haveibeenpwned.com)</li>
+                </ul>
+            </div>
+            
+            <div class="card success">
+                <h3>Защита устройств</h3>
+                <ul>
+                    <li>Установите антивирус с поведенческим анализом</li>
+                    <li>Включите автоматические обновления ОС и ПО</li>
+                    <li>Используйте брандмауэр и VPN</li>
+                    <li>Настройте резервное копирование по правилу 3-2-1</li>
+                </ul>
+            </div>
+            
+            <div class="card success">
+                <h3>Безопасность сети</h3>
+                <ul>
+                    <li>Замените пароль на роутере</li>
+                    <li>Отключите WPS и используйте WPA3</li>
+                    <li>Создайте гостевую сеть для IoT-устройств</li>
+                    <li>Используйте DNS-фильтрацию (Cloudflare Family, OpenDNS)</li>
+                </ul>
+            </div>
+            
+            <div class="card success">
+                <h3>Осознанное поведение</h3>
+                <ul>
+                    <li>Проверяйте URL перед вводом данных</li>
+                    <li>Не открывайте вложения из непроверенных писем</li>
+                    <li>Ограничьте личную информацию в соцсетях</li>
+                    <li>Обучайтесь распознаванию фишинга</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="quote">
+            <p>В цифровом мире безопасность — это не пункт назначения, а непрерывное путешествие. Самые совершенные технологии защиты бесполезны без осознанного поведения пользователей. Комбинация технических мер и цифровой гигиены — единственный способ противостоять современным угрозам.</p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <h3>Оставайтесь в безопасности</h3>
+            <p>Регулярно обновляйте свои знания о киберугрозах. Безопасность — это процесс, а не состояние.</p>
+            <p>© 2023 Центр цифровой безопасности. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>
